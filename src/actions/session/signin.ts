@@ -1,3 +1,4 @@
+"use server"
 import { IServerResponse } from "@/interface/IServerResponse";
 import { prisma } from "@/lib/prisma";
 import { User } from "@prisma/client";
