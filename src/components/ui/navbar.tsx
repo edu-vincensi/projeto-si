@@ -1,9 +1,8 @@
-"use client"
+import { auth } from "@/auth"
 import Link from "next/link"
-import { useSession } from "next-auth/react"
 
-export default function Navbar() {
-  const { data: session } = useSession()
+export default async function Navbar() {
+  const session = await auth()
 
   return (
     <nav className="bg-blue-800 text-white py-3">

@@ -1,51 +1,70 @@
 "use client"
 
-import { signIn } from "next-auth/react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import ButtonWithLoading from "@/components/button-with-loading"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import z from "zod"
+import EmailInput from "../cadastro/inputs/email-input"
+import PasswordInput from "../cadastro/inputs/password-input"
+import { authFormSchema } from "../cadastro/login-form-schema"
+import { createToast } from "@/util/create-toast"
+import { resolveResponseUtil } from "@/util/resolveResponseUtil"
+import { submitLoginForm } from "../cadastro/auth-actions"
+import { Form } from "@/components/ui/form"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+
+  const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+  const form = useForm<z.infer<typeof authFormSchema>>({
+    resolver: zodResolver(authFormSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    },
+  })
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const result = await signIn("credentials", {
-      redirect: false,
-      email,
-      password,
-    })
+  async function onSubmit(values: z.infer<typeof authFormSchema>) {
 
-    if (result?.ok) {
-      router.push("/dashboard")
-    } else {
-      alert("Credenciais inválidas")
+    handleLoading()
+
+    const resp = await submitLoginForm(values.email, values.password)
+
+    setIsLoading(false)
+
+    if (resp.success === false) {
+      const { title, description } = resolveResponseUtil(resp)
+      return createToast.error(title, description)
     }
+
+    router.push('/dashboard')
+
+  }
+
+  function handleLoading() {
+    setIsLoading(true)
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-sm mx-auto mt-10 flex flex-col gap-4"
-    >
-      <input
-        type="email"
-        placeholder="Email"
-        className="border p-2"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        className="border p-2"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit" className="bg-blue-600 text-white py-2 rounded">
-        Entrar
-      </button>
-    </form>
+    <div className="max-w-sm mx-auto mt-10 flex flex-col gap-4">
+      <p className="text-xl">Fazer Login</p>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="flex flex-col gap-4">
+
+          <div className="flex flex-col gap-2">
+            <EmailInput form={form} />
+
+            <PasswordInput form={form} />
+          </div>
+
+          <ButtonWithLoading isLoading={isLoading}>
+            Entrar
+          </ButtonWithLoading>
+
+        </form>
+      </Form>
+    </div>
   )
 }

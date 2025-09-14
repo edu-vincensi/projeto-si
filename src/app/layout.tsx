@@ -1,20 +1,17 @@
 
-import { Geist, Geist_Mono } from "next/font/google"
 import "./globals.css"
 import Navbar from "@/components/ui/navbar"
 import Header from "@/components/ui/header"
-import Providers from "./providers"
-
+import { Toaster } from "sonner"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
       <body>
-        <Providers>
-          <Header />
-          <Navbar />
-          <main>{children}</main>
-        </Providers>
+        <Header />
+        <Navbar />
+        <main>{children}</main>
+        <Toaster />
       </body>
     </html>
   )
