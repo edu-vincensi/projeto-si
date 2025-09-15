@@ -18,7 +18,7 @@ export default function Contato() {
         />
         <textarea
           placeholder="Sua Mensagem"
-          rows="4"
+          rows={4}
           className="w-full border border-gray-300 bg-gray-50 text-gray-900 placeholder-gray-500 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         ></textarea>
         <button

@@ -2,18 +2,23 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import z from "zod"
-import { submitLoginForm } from "./auth-actions"
-import EmailInput from "./inputs/email-input"
-import PasswordInput from "./inputs/password-input"
-import { authFormSchema } from "./login-form-schema"
+import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import ButtonWithLoading from "@/components/button-with-loading"
-import { createToast } from "@/util/create-toast"
-import { Form } from "@/components/ui/form"
 import { useForm } from "react-hook-form"
-import { resolveResponseUtil } from "@/util/resolveResponseUtil"
+
+// Funções e esquemas de autenticação
+import { submitLoginForm } from "./auth-actions"
+import { authFormSchema } from "./login-form-schema"
 import { createUserAction } from "@/actions/user/createUserAction"
+
+// Componentes da UI
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import ButtonWithLoading from "@/components/button-with-loading"
+
+// Utilitários
+import { createToast } from "@/util/create-toast"
+import { resolveResponseUtil } from "@/util/resolveResponseUtil"
 
 export default function CadastroPage() {
 
@@ -29,47 +34,72 @@ export default function CadastroPage() {
   })
 
   async function onSubmit(values: z.infer<typeof authFormSchema>) {
-
-    handleLoading()
-
+    // ...Sua lógica de submit permanece a mesma...
+    setIsLoading(true)
     const respUser = await createUserAction(values)
-
     if (respUser.success === false) {
       setIsLoading(false)
       const { title, description } = resolveResponseUtil(respUser)
       return createToast.error(title, description)
     }
-
-    const resp = await submitLoginForm(values.email, values.password)
-
+    const respLogin = await submitLoginForm(values.email, values.password)
     setIsLoading(false)
-
-    if (resp.success === false) {
-      const { title, description } = resolveResponseUtil(resp)
-      return createToast.error(title, description)
+    if (respLogin.success === false) {
+      const { title, description } = resolveResponseUtil(respLogin)
+      createToast.error(title, description)
+      return router.push('/login')
     }
-
     router.push('/dashboard')
-
   }
 
-  function handleLoading() {
-    setIsLoading(true)
-  }
   return (
-    <div className="max-w-sm mx-auto mt-10 flex flex-col gap-4">
-      <p className="text-xl">Criar Conta</p>
+    <div className="max-w-md mx-auto my-12 bg-white p-8 rounded-2xl shadow-lg">
+      
+      {/* 1. TÍTULO COM COR DE ALTO CONTRASTE */}
+      <h2 className="text-2xl font-semibold text-gray-900 mb-2 text-center">
+        Criar Nova Conta
+      </h2>
+
+      {/* 2. TEXTO DE APOIO COM COR OTIMIZADA PARA LEITURA */}
+      <p className="text-center text-gray-600 mb-6">
+        Preencha os campos abaixo para começar.
+      </p>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="flex flex-col gap-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} method="POST" className="space-y-6">
+          
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                {/* 3. LABEL COM COR ESCURA E LEGÍVEL */}
+                <FormLabel className="text-gray-700">E-mail</FormLabel>
+                <FormControl>
+                  <Input placeholder="seu@email.com" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <div className="flex flex-col gap-2">
-            <EmailInput form={form} />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                {/* 3. LABEL COM COR ESCURA E LEGÍVEL */}
+                <FormLabel className="text-gray-700">Senha</FormLabel>
+                <FormControl>
+                  <Input type="password" placeholder="••••••••" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <PasswordInput form={form} />
-          </div>
-
-          <ButtonWithLoading isLoading={isLoading}>
-            Entrar
+          <ButtonWithLoading isLoading={isLoading} className="w-full">
+            Criar Conta
           </ButtonWithLoading>
 
         </form>
