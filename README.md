@@ -30,6 +30,9 @@ npm run start
 ```
 ## Documentações
 
+Relatório:
+https://docs.google.com/document/d/1cmRwPAk341SyVDmudrEcBhzbAeO-8xT7ETXO2Szytr8/edit?usp=sharing
+
 Visão Geral do Sistema:
 https://docs.google.com/document/d/16wv2BolDZA9LLEJ1VChPUI1PkNgEFIPuLHBOmon0XRk/edit?usp=sharing
 
