@@ -44,7 +44,7 @@ export default function LoginPage() {
       return createToast.error(title, description)
     }
 
-    router.push('/dashboard')
+    router.push('/servicos')
   }
 
   return (

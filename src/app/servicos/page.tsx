@@ -1,28 +1,14 @@
-"use client"
 
-import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
 import { auth } from "@/auth" // função client-side que retorna sessão ou null
+import Link from "next/link"
+import { redirect } from "next/navigation"
 
-export default function ServicosPage() {
-  const router = useRouter()
-  const [session, setSession] = useState<any>(null)
+export default async function ServicosPage() {
 
-  useEffect(() => {
-    async function loadSession() {
-      const s = await auth() 
-      setSession(s)
-    }
-    loadSession()
-  }, [])
+  const session = await auth()
 
-  function handleVisualizarDetalhes(path: string) {
-    if (session) {
-      router.push(path)
-    } else {
-      router.push(`/login?callbackUrl=${path}`)
-    }
-  }
+  if (!session)
+    return redirect("/login")
 
   return (
     <div className="bg-gray-100 text-gray-800 font-sans min-h-screen">
@@ -38,12 +24,13 @@ export default function ServicosPage() {
               Criamos aplicações web, sistemas corporativos e soluções digitais
               sob medida para o seu negócio.
             </p>
-            <button
-              onClick={() => handleVisualizarDetalhes("servicos/desenvolvimento")}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-            >
-              Visualizar Detalhes
-            </button>
+            <Link href="servicos/desenvolvimento">
+              <button
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              >
+                Visualizar Detalhes
+              </button>
+            </Link>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
@@ -51,12 +38,13 @@ export default function ServicosPage() {
             <p>
               Auditoria, análise de riscos e implementação de políticas de segurança.
             </p>
-            <button
-              onClick={() => handleVisualizarDetalhes("servicos/seguranca")}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-            >
-              Visualizar Detalhes
-            </button>
+            <Link href="servicos/seguranca">
+              <button
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              >
+                Visualizar Detalhes
+              </button>
+            </Link>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition">
@@ -64,12 +52,13 @@ export default function ServicosPage() {
             <p>
               Planejamento, configuração e monitoramento de ambientes de TI confiáveis.
             </p>
-            <button
-              onClick={() => handleVisualizarDetalhes("servicos/infraestrutura")}
-              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
-            >
-              Visualizar Detalhes
-            </button>
+            <Link href="servicos/infraestrutura">
+              <button
+                className="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded"
+              >
+                Visualizar Detalhes
+              </button>
+            </Link>
           </div>
         </div>
       </section>

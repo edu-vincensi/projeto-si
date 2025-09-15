@@ -49,7 +49,7 @@ export default function CadastroPage() {
       createToast.error(title, description)
       return router.push('/login')
     }
-    router.push('/dashboard')
+    router.push('/servicos')
   }
 
   return (
