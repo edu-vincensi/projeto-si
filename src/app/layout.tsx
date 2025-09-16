@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <html lang="pt-BR">
       <body>
         <Header />
-        <Navbar />
+        <Navbar/>
         <main>{children}</main>
         <Toaster />
       </body>

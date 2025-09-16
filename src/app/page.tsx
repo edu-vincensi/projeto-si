@@ -11,7 +11,7 @@ export default function Home() {
 
      <div className="mt-20 p-10">
       <section id="sobre" className="max-w-4xl mx-auto my-12 bg-white p-8 rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-semibold text-blue-600 mb-4">Sobre Nós</h2>
+        <h2 className="text-2xl font-semibold text-lime-600 mb-4">Sobre Nós</h2>
         <p className="leading-relaxed text-gray-700">
           Somos uma empresa especializada em desenvolvimento de software e consultoria em{" "}
           <span className="font-semibold">Segurança da Informação (SI)</span>. Nosso objetivo é entregar

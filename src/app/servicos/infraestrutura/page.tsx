@@ -1,8 +1,6 @@
-import Layout from "@/app/layout"
 
 export default function InfraestruturaDetalhe() {
   return (
-    <Layout>
       <div className="max-w-4xl mx-auto my-12 p-6 bg-white rounded-xl shadow">
         <h2 className="text-3xl font-bold text-blue-600 mb-4">
           Infraestrutura Segura
@@ -17,6 +15,5 @@ export default function InfraestruturaDetalhe() {
           <li>Backup, redundância e recuperação de desastres</li>
         </ul>
       </div>
-    </Layout>
   )
 }

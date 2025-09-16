@@ -1,8 +1,7 @@
-import Layout from "@/app/layout"
+
 
 export default function DesenvolvimentoDetalhe() {
   return (
-    <Layout>
       <div className="max-w-4xl mx-auto my-12 p-6 bg-white rounded-xl shadow">
         <h2 className="text-3xl font-bold text-blue-600 mb-4">
           Desenvolvimento de Software
@@ -17,6 +16,5 @@ export default function DesenvolvimentoDetalhe() {
           <li>Arquitetura escalável e segura</li>
         </ul>
       </div>
-    </Layout>
   )
 }
