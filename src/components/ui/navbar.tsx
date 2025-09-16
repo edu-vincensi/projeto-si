@@ -1,5 +1,3 @@
-"use client"
-
 import { auth } from "@/auth"
 import Link from "next/link"
 import { LogoutButton } from "./logoutButton"
